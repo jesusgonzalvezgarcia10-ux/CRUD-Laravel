@@ -3,8 +3,9 @@ set -e
 
 # Esperar a que MySQL esté listo
 echo "⏳ Esperando a que MySQL esté disponible..."
-while ! mysqladmin ping -h"$DB_HOST" -u"$DB_USERNAME" -p"$DB_PASSWORD" --silent 2>/dev/null; do
-    sleep 2
+until mysql -h"$DB_HOST" -u"$DB_USERNAME" -p"$DB_PASSWORD" -e "SELECT 1" &>/dev/null; do
+    echo "   MySQL no está listo, esperando..."
+    sleep 3
 done
 echo "✅ MySQL está listo!"
 
