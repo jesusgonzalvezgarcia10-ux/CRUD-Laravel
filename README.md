@@ -1,8 +1,8 @@
-# 📋 CRUD Laravel
+# CRUD Laravel
 
 ---
 
-## � Instalación
+## Instalación
 
 ```bash
 docker compose up
@@ -10,7 +10,7 @@ docker compose up
 
 ---
 
-## �🔗 URLs de Acceso
+## URLs de Acceso
 
 | Servicio | URL |
 |----------|-----|
@@ -19,7 +19,7 @@ docker compose up
 
 ---
 
-## 🔐 Credenciales de Login
+## Credenciales de Login
 
 | Campo | Valor |
 |-------|-------|
@@ -28,7 +28,7 @@ docker compose up
 
 ---
 
-## 🔐 Credenciales de phpMyAdmin
+## Credenciales de phpMyAdmin
 
 | Campo | Valor |
 |-------|-------|
