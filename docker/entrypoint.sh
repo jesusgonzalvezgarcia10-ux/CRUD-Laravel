@@ -31,8 +31,9 @@ sed -i "s/DB_DATABASE=.*/DB_DATABASE=$DB_DATABASE/" /var/www/.env
 sed -i "s/DB_USERNAME=.*/DB_USERNAME=$DB_USERNAME/" /var/www/.env
 sed -i "s/DB_PASSWORD=.*/DB_PASSWORD=$DB_PASSWORD/" /var/www/.env
 
-# Configurar Redis si está disponible
+# Para Laravel 11+ que usa SESSION_DRIVER en lugar de CACHE_STORE
 sed -i "s/CACHE_STORE=.*/CACHE_STORE=redis/" /var/www/.env 2>/dev/null || true
+sed -i "s/CACHE_DRIVER=.*/CACHE_DRIVER=redis/" /var/www/.env 2>/dev/null || true
 sed -i "s/SESSION_DRIVER=.*/SESSION_DRIVER=redis/" /var/www/.env 2>/dev/null || true
 sed -i "s/REDIS_HOST=.*/REDIS_HOST=redis/" /var/www/.env
 
@@ -47,7 +48,7 @@ fi
 
 # Generar key si no existe
 cd /var/www
-if grep -q "APP_KEY=$" /var/www/.env || grep -q "APP_KEY=base64" /var/www/.env; then
+if grep -q "APP_KEY=base64" /var/www/.env; then
     echo "🔑 APP_KEY ya existe"
 else
     echo "🔑 Generando APP_KEY..."
