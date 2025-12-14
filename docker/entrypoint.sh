@@ -25,19 +25,19 @@ if [ -f "/var/www/.env.example" ] && [ ! -f "/var/www/.env" ]; then
     cp /var/www/.env.example /var/www/.env
 fi
 
-# Actualizar valores del .env
-sed -i "s/DB_CONNECTION=.*/DB_CONNECTION=mysql/" /var/www/.env
-sed -i "s/DB_HOST=.*/DB_HOST=$DB_HOST/" /var/www/.env
-sed -i "s/DB_PORT=.*/DB_PORT=$DB_PORT/" /var/www/.env
-sed -i "s/DB_DATABASE=.*/DB_DATABASE=$DB_DATABASE/" /var/www/.env
-sed -i "s/DB_USERNAME=.*/DB_USERNAME=$DB_USERNAME/" /var/www/.env
-sed -i "s/DB_PASSWORD=.*/DB_PASSWORD=$DB_PASSWORD/" /var/www/.env
+# Actualizar valores del .env (compatible con Laravel 10 y 11+)
+sed -i "s|^DB_CONNECTION=.*|DB_CONNECTION=mysql|" /var/www/.env
+sed -i "s|^DB_HOST=.*|DB_HOST=$DB_HOST|" /var/www/.env
+sed -i "s|^DB_PORT=.*|DB_PORT=$DB_PORT|" /var/www/.env
+sed -i "s|^DB_DATABASE=.*|DB_DATABASE=$DB_DATABASE|" /var/www/.env
+sed -i "s|^DB_USERNAME=.*|DB_USERNAME=$DB_USERNAME|" /var/www/.env
+sed -i "s|^DB_PASSWORD=.*|DB_PASSWORD=$DB_PASSWORD|" /var/www/.env
 
-# Para Laravel 11+ que usa SESSION_DRIVER en lugar de CACHE_STORE
-sed -i "s/CACHE_STORE=.*/CACHE_STORE=redis/" /var/www/.env 2>/dev/null || true
-sed -i "s/CACHE_DRIVER=.*/CACHE_DRIVER=redis/" /var/www/.env 2>/dev/null || true
-sed -i "s/SESSION_DRIVER=.*/SESSION_DRIVER=redis/" /var/www/.env 2>/dev/null || true
-sed -i "s/REDIS_HOST=.*/REDIS_HOST=redis/" /var/www/.env
+# Configurar Redis (compatible con Laravel 10 y 11+)
+sed -i "s|^CACHE_STORE=.*|CACHE_STORE=redis|" /var/www/.env 2>/dev/null || true
+sed -i "s|^CACHE_DRIVER=.*|CACHE_DRIVER=redis|" /var/www/.env 2>/dev/null || true
+sed -i "s|^SESSION_DRIVER=.*|SESSION_DRIVER=redis|" /var/www/.env 2>/dev/null || true
+sed -i "s|^REDIS_HOST=.*|REDIS_HOST=redis|" /var/www/.env 2>/dev/null || true
 
 echo "✅ .env configurado!"
 
