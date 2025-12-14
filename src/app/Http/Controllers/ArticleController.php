@@ -11,12 +11,20 @@ class ArticleController extends Controller
     /**
      * Display a listing of all articles.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Mostrar todos los artículos de todos los usuarios
-        $articles = Article::with('user')
-            ->orderBy('date', 'desc')
-            ->get();
+        $query = Article::with('user');
+
+        // Si hay búsqueda, filtrar
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('body', 'like', "%{$search}%");
+            });
+        }
+
+        $articles = $query->orderBy('date', 'desc')->get();
 
         return view('articles.index', compact('articles'));
     }
@@ -24,11 +32,20 @@ class ArticleController extends Controller
     /**
      * Display only the authenticated user's articles.
      */
-    public function mine()
+    public function mine(Request $request)
     {
-        $articles = Article::where('user_id', Auth::id())
-            ->orderBy('date', 'desc')
-            ->get();
+        $query = Article::where('user_id', Auth::id());
+
+        // Si hay búsqueda, filtrar
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('body', 'like', "%{$search}%");
+            });
+        }
+
+        $articles = $query->orderBy('date', 'desc')->get();
 
         return view('articles.mine', compact('articles'));
     }
