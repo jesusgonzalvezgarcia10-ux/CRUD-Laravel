@@ -5,6 +5,10 @@
 ## Instalación
 
 ```bash
+git clone https://github.com/jesusgonzalvezgarcia10-ux/CRUD-Laravel.git
+
+cd CRUD-Laravel
+
 docker compose up
 ```
 
