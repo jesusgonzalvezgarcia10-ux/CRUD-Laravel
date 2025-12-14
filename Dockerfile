@@ -1,9 +1,5 @@
 FROM php:8.2-fpm
 
-# Argumentos
-ARG user=laravel
-ARG uid=1000
-
 # Instalar dependencias del sistema
 RUN apt-get update && apt-get install -y \
     git \
@@ -14,11 +10,9 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     zip \
     unzip \
-    nodejs \
-    npm
-
-# Limpiar cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+    default-mysql-client \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Instalar extensiones PHP
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
@@ -29,20 +23,15 @@ RUN pecl install redis && docker-php-ext-enable redis
 # Instalar Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Crear usuario del sistema
-RUN useradd -G www-data,root -u $uid -d /home/$user $user
-RUN mkdir -p /home/$user/.composer && \
-    chown -R $user:$user /home/$user
-
 # Establecer directorio de trabajo
 WORKDIR /var/www
 
-# Copiar permisos de la aplicación
-COPY --chown=$user:$user ./src /var/www
-
-USER $user
+# Copiar script de entrada
+COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Exponer puerto 9000
 EXPOSE 9000
 
-CMD ["php-fpm"]
+# Usar el script de entrada
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
