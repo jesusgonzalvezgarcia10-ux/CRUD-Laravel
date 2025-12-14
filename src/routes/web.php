@@ -18,6 +18,7 @@ Route::get('/articles/{id}', [ArticleController::class, 'show'])->name('articles
 
 // Rutas protegidas de artículos (requieren autenticación)
 Route::middleware('auth')->group(function () {
+    Route::get('/articles/mine', [ArticleController::class, 'mine'])->name('articles.mine');
     Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
     Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
     Route::get('/articles/{id}/edit', [ArticleController::class, 'edit'])->name('articles.edit');

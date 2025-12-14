@@ -9,21 +9,28 @@ use Illuminate\Support\Facades\Auth;
 class ArticleController extends Controller
 {
     /**
-     * Display a listing of the articles.
+     * Display a listing of all articles.
      */
     public function index()
     {
-        // Si el usuario está autenticado, mostrar solo sus artículos
-        // Si no, mostrar todos (para usuarios no autenticados)
-        if (Auth::check()) {
-            $articles = Article::where('user_id', Auth::id())
-                ->orderBy('date', 'desc')
-                ->get();
-        } else {
-            $articles = Article::orderBy('date', 'desc')->get();
-        }
+        // Mostrar todos los artículos de todos los usuarios
+        $articles = Article::with('user')
+            ->orderBy('date', 'desc')
+            ->get();
 
         return view('articles.index', compact('articles'));
+    }
+
+    /**
+     * Display only the authenticated user's articles.
+     */
+    public function mine()
+    {
+        $articles = Article::where('user_id', Auth::id())
+            ->orderBy('date', 'desc')
+            ->get();
+
+        return view('articles.mine', compact('articles'));
     }
 
     /**

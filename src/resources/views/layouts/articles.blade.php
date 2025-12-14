@@ -279,11 +279,11 @@
 <body>
     <nav class="navbar">
         <div class="navbar-content">
-            <a href="{{ route('articles.index') }}" class="navbar-brand">📝 Blog de Artículos</a>
+            <a href="{{ route('articles.index') }}" class="navbar-brand">Blog de Artículos</a>
             <div class="navbar-nav">
                 <a href="{{ route('articles.index') }}" class="nav-link">Artículos</a>
                 @auth
-                    <a href="{{ route('articles.create') }}" class="nav-link">Nuevo Artículo</a>
+                    <a href="{{ route('articles.mine') }}" class="nav-link">Mis Artículos</a>
                     <span class="user-info">Hola, {{ Auth::user()->name }}</span>
                     <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                         @csrf

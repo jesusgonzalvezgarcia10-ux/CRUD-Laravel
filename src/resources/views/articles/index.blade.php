@@ -1,25 +1,17 @@
 @extends('layouts.articles')
 
-@section('title', 'Listado de Artículos')
+@section('title', 'Todos los Artículos')
 
 @section('content')
     <div class="page-header">
-        <h1 class="page-title">Artículos</h1>
-        @auth
-            <a href="{{ route('articles.create') }}" class="btn btn-primary">+ Nuevo Artículo</a>
-        @endauth
+        <h1 class="page-title">Todos los Artículos</h1>
     </div>
 
     @if($articles->isEmpty())
         <div class="card">
             <div class="empty-state">
                 <h3>No hay artículos disponibles</h3>
-                <p>Sé el primero en crear un artículo.</p>
-                @auth
-                    <a href="{{ route('articles.create') }}" class="btn btn-primary" style="margin-top: 1rem;">
-                        Crear Artículo
-                    </a>
-                @endauth
+                <p>Aún no se han publicado artículos.</p>
             </div>
         </div>
     @else
@@ -39,19 +31,6 @@
                 <div class="card-body">
                     <p>{{ Str::limit($article->body, 200) }}</p>
                 </div>
-                @auth
-                    @if(Auth::id() === $article->user_id)
-                        <div class="actions" style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee;">
-                            <a href="{{ route('articles.edit', $article->id) }}" class="btn btn-warning btn-sm">Editar</a>
-                            <form action="{{ route('articles.destroy', $article->id) }}" method="POST" 
-                                  onsubmit="return confirm('¿Estás seguro de que deseas eliminar este artículo?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                            </form>
-                        </div>
-                    @endif
-                @endauth
             </div>
         @endforeach
     @endif
