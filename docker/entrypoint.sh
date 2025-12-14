@@ -3,7 +3,7 @@ set -e
 
 # Esperar a que MySQL esté listo
 echo "⏳ Esperando a que MySQL esté disponible..."
-until mysql -h"$DB_HOST" -u"$DB_USERNAME" -p"$DB_PASSWORD" -e "SELECT 1" &>/dev/null; do
+until mysql -h"$DB_HOST" -u"$DB_USERNAME" -p"$DB_PASSWORD" --ssl-mode=DISABLED -e "SELECT 1" &>/dev/null; do
     echo "   MySQL no está listo, esperando..."
     sleep 3
 done
