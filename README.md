@@ -2,7 +2,15 @@
 
 ---
 
-## 🔗 URLs de Acceso
+## � Instalación
+
+```bash
+docker compose up
+```
+
+---
+
+## �🔗 URLs de Acceso
 
 | Servicio | URL |
 |----------|-----|
