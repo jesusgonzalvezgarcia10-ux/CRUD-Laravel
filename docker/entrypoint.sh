@@ -66,6 +66,17 @@ chmod -R 775 /var/www/storage /var/www/bootstrap/cache 2>/dev/null || true
 echo "🗄️ Ejecutando migraciones..."
 php artisan migrate --force || true
 
+# Ejecutar seeders si la tabla users está vacía
+echo "🌱 Verificando datos iniciales..."
+USER_COUNT=$(php artisan tinker --execute="echo \App\Models\User::count();" 2>/dev/null | tail -1)
+if [ "$USER_COUNT" = "0" ] || [ -z "$USER_COUNT" ]; then
+    echo "📦 Ejecutando seeders..."
+    php artisan db:seed --force || true
+    echo "✅ Datos iniciales creados!"
+else
+    echo "✅ Ya existen datos en la base de datos"
+fi
+
 # Limpiar y cachear
 echo "🧹 Optimizando Laravel..."
 php artisan config:clear
